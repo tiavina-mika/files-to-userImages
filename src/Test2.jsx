@@ -84,9 +84,9 @@ new Array(4).fill(0).forEach((_, index) => {
   packTemplates.push(newTemplate);
 });
 
-const bindFilesToLayers = (template, files, index) => {
+const bindFilesToLayers = (template, files) => {
   const userImages = filterLayersByType(
-    packTemplates[index].layers,
+    template.layers,
     "userImage"
   );
 
@@ -134,7 +134,7 @@ const newTemplates2 = [];
 packTemplates.forEach((pack, index) => {
   newTemplates2.push({
     ...pack,
-    layers: bindFilesToLayers(pack, userImageWithFiles.flat(), index)
+    layers: bindFilesToLayers(pack, userImageWithFiles.flat())
   });
 });
 

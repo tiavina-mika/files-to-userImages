@@ -16,33 +16,45 @@ const files = [
 // ------------------------------- //
 // ------------ template --------- //
 // ------------------------------- //
-// const template = {
-//   name: "template1",
-//   layers: [
-//     { id: "m1", type: "mask", layers: [
-//       { id: "ui1", type: "userImage" },
-//       { id: "ui11", type: "userImage" },
-//     ] },
-//     { id: "ut1", type: "userText" },
-//   ]
-// };
-
 const template = {
   name: "template1",
   layers: [
-    {
-      id: "m1",
-      type: "mask",
-      layers: [
-        // { id: "ui1", type: "userImage" },
-        { id: "ui1", type: "userImage" }
-      ]
-    },
-    { id: "ut1", type: "userText" },
-    { id: "ui11", type: "userImage" }
+    { id: "ui1", type: "userImage" },
+    { id: "ui11", type: "userImage" },
+    { id: "ut1", type: "userText" }
   ]
 };
 
+const result = [
+  {
+    name: "template1",
+    layers: [
+      { id: "ui1", type: "userImage", file: { file: "/me.jpg" } },
+      { id: "ui11", type: "userImage", file: { file: "/le_cri.jpg" } }
+    ]
+  },
+  {
+    name: "template1",
+    layers: [
+      { id: "ui1", type: "userImage", file: { file: "/image1.jpg" } },
+      { id: "ui11", type: "userImage", file: { file: "/anatomies.jpeg" } }
+    ]
+  },
+  {
+    name: "template1",
+    layers: [
+      { id: "ui1", type: "userImage", file: { file: "/me.jpg" } },
+      { id: "ui11", type: "userImage", file: { file: "/le_cri.jpg" } }
+    ]
+  },
+  {
+    name: "template1",
+    layers: [
+      { id: "ui1", type: "userImage", file: { file: "/image1.jpg" } },
+      { id: "ui11", type: "userImage", file: { file: "/anatomies.jpeg" } }
+    ]
+  }
+];
 // --------------------------- //
 // -------- copy files ------- //
 // --------------------------- //
@@ -52,6 +64,7 @@ const userImages = filterLayersByType(template.layers, "userImage");
 for (let i = 0; i < userImages.length; i++) {
   userImageWithFiles[i] = [...files];
 }
+// console.log('userImageWithFiles', userImageWithFiles.flat());
 
 // --------------------------- //
 // ------------ pack --------- //
@@ -82,26 +95,13 @@ for (let i = 0; i < newPackTemplates.length; i++) {
       indexFile = 0;
     }
   }
-
-  const layersWithMask = [
-    ...newPackTemplates[i].layers.map((l) => {
-      if (!l.layers) {
-        if (l.type === "userText") {
-          return { ...l };
-        }
-        return {
-          ...l,
-          ...userImages.find((u) => u.id === l.id)
-        };
-      }
-      return {
-        ...l,
-        layers: userImages.filter((sb) => l.layers.find((u) => u.id === sb.id))
-      };
-    })
+  // modifier
+  newPackTemplates[i].layers = [
+    ...newPackTemplates[i].layers.filter((l) => l.type !== "userImage"),
+    ...userImages
   ];
-
-  newPackTemplates[i].layers = [...layersWithMask];
+  // newPackTemplates[i].layers = userImages;
+  // console.log(newPackTemplates[i].layers);
 }
 
 console.log("newPackTemplates", newPackTemplates);

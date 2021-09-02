@@ -24,6 +24,36 @@ const template = {
   ]
 };
 
+const result = [
+  {
+    name: "template1",
+    layers: [
+      { id: "ui1", type: "userImage", file: { file: "/me.jpg" } },
+      { id: "ui11", type: "userImage", file: { file: "/le_cri.jpg" } }
+    ]
+  },
+  {
+    name: "template1",
+    layers: [
+      { id: "ui1", type: "userImage", file: { file: "/image1.jpg" } },
+      { id: "ui11", type: "userImage", file: { file: "/anatomies.jpeg" } }
+    ]
+  },
+  {
+    name: "template1",
+    layers: [
+      { id: "ui1", type: "userImage", file: { file: "/me.jpg" } },
+      { id: "ui11", type: "userImage", file: { file: "/le_cri.jpg" } }
+    ]
+  },
+  {
+    name: "template1",
+    layers: [
+      { id: "ui1", type: "userImage", file: { file: "/image1.jpg" } },
+      { id: "ui11", type: "userImage", file: { file: "/anatomies.jpeg" } }
+    ]
+  }
+];
 // --------------------------- //
 // -------- copy files ------- //
 // --------------------------- //
@@ -33,6 +63,7 @@ const userImages = filterLayersByType(template.layers, "userImage");
 for (let i = 0; i < userImages.length; i++) {
   userImageWithFiles[i] = [...files];
 }
+// console.log('userImageWithFiles', userImageWithFiles.flat());
 
 // --------------------------- //
 // ------------ pack --------- //

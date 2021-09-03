@@ -49,14 +49,11 @@ const classes = {
 // ------------ pack --------- //
 // --------------------------- //
 // each pack should have a template => 4p x 1t x2l
-const bindFilesToTemplates = (template) => {
+const bindFilesToTemplates = (template, pack = 4) => {
   const newPackTemplates = [];
 
-  new Array(4).fill(0).forEach((_, index) => {
-    const newTemplate = {
-      ...template
-    };
-    newPackTemplates.push(newTemplate);
+  new Array(pack).fill(0).forEach(() => {
+    newPackTemplates.push(template);
   });
 
   let indexFile = 0;

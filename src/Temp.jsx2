@@ -1,0 +1,136 @@
+/** @jsxRuntime classic /
+/* @jsx jsx */
+import { jsx } from "@emotion/react";
+import ReactJson from "react-json-view";
+
+import { filterLayersByType } from "./actions/templates";
+
+// ------------------------------- //
+// ------------ files ------------ //
+// ------------------------------- //
+const files = [
+  { file: "/me.jpg" },
+  { file: "/le_cri.jpg" },
+  { file: "/image1.jpg" },
+  { file: "/anatomies.jpeg" },
+  // { file: "/me.jpg" },
+  // { file: "/le_cri.jpg" },
+  // { file: "/image1.jpg" },
+  // { file: "/anatomies.jpeg" },
+  // { file: "/image1.jpg" },
+];
+
+// ------------------------------- //
+// ------------ template --------- //
+// ------------------------------- //
+
+const template = {
+  name: "template1",
+  layers: [
+    {
+      id: "m1",
+      type: "mask",
+      layers: [
+        { id: "ui1", type: "userImage" },
+        { id: "ui11", type: "userImage" },
+        // { id: "ut1", type: "userText" },
+        // { id: "i1", type: "image" }
+      ]
+    },
+    { id: "ut2", type: "userText" },
+    // { id: "i2", type: "image" }
+    // { id: "ui11", type: "userImage" }
+  ]
+};
+
+const classes = {
+  reactJson: {
+    width: "100%",
+    padding: 20
+  }
+};
+
+// --------------------------- //
+// ------------ pack --------- //
+// --------------------------- //
+// each pack should have a template => 4p x 1t x2l
+export const bindFilesToTemplates = (template, files, pack = 1) => {
+  const packTemplates = [];
+
+  new Array(pack).fill(0).forEach(() => packTemplates.push(template));
+
+  let indexFile = 0;
+  for (let i = 0; i < packTemplates.length; i++) {
+    /** get template userImage layers */
+    const userImageLayers = filterLayersByType(
+      packTemplates[i].layers,
+      'userImage',
+    );
+
+    /* add files to userImage layers */
+    for (let j = 0; j < userImageLayers.length; j++) {
+      console.log(j);
+      const file = files[indexFile];
+      userImageLayers[j] = { ...userImageLayers[j], file };
+      indexFile++;
+      if (indexFile === files.length) {
+        // files length
+        indexFile = 0;
+      }
+    }
+
+    // const layersWithMask = [
+    //   ...packTemplates[i].layers.map((layer) => {
+    //     // layers level 1
+    //     if (!layer.layers) {
+    //       if (layer.type === 'userText' || layer.type === 'image') {
+    //         return { ...layer };
+    //       }
+    //       // userImage layers level 1
+    //       return {
+    //         ...layer,
+    //         ...userImageLayers.find((u) => u.id === layer.id),
+    //       };
+    //     }
+
+    //     // layers level 2
+    //     return {
+    //       ...layer,
+    //       layers: [
+    //         /** remove userImages not treated yet */
+    //         ...layer.layers.filter((subLayer) => subLayer.type !== 'userImage'),
+    //         // userImages with images
+    //         ...userImageLayers.filter((userImageLayer) => {
+    //           return layer.layers.find((subLayer) => subLayer.id === userImageLayer.id);
+    //         }),
+    //       ],
+    //     };
+    //   }),
+    // ];
+
+    packTemplates[i].layers = [...userImageLayers];
+    // packTemplates[i].layers = [...layersWithMask];
+  }
+  return packTemplates;
+};
+
+console.log("bindFilesToTemplates",
+bindFilesToTemplates(template, files, 4));
+
+// --------------------------- //
+// ------------ component --------- //
+// --------------------------- //
+const Test = () => {
+  return (
+    <div className="flexCenter">
+      <ReactJson
+        src={bindFilesToTemplates(template, files, 4)}
+        theme="pop"
+        displayDataTypes={false}
+        style={classes.reactJson}
+      />
+    </div>
+  );
+};
+
+export default Test;

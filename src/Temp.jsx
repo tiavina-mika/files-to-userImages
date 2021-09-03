@@ -12,12 +12,12 @@ const files = [
   { file: "/me.jpg" },
   { file: "/le_cri.jpg" },
   { file: "/image1.jpg" },
-  { file: "/anatomies.jpeg" }
-  // { file: "/me.jpg" },
-  // { file: "/le_cri.jpg" },
-  // { file: "/image1.jpg" },
-  // { file: "/anatomies.jpeg" },
-  // { file: "/image1.jpg" },
+  { file: "/anatomies.jpeg" },
+  { file: "/me.jpg" },
+  { file: "/le_cri.jpg" },
+  { file: "/image1.jpg" },
+  { file: "/anatomies.jpeg" },
+  { file: "/image1.jpg" }
 ];
 
 // ------------------------------- //
@@ -31,13 +31,13 @@ const template = {
       id: "m1",
       type: "mask",
       layers: [
-        { id: "ui1", type: "userImage" },
-        { id: "ui11", type: "userImage" }
+        { id: "ui1", type: "userImage" }
+        // { id: "ui11", type: "userImage" },
         // { id: "ut1", type: "userText" },
         // { id: "i1", type: "image" }
       ]
-    }
-    // { id: "ut2", type: "userText" },
+    },
+    { id: "ut2", type: "userText" }
     // { id: "i2", type: "image" }
     // { id: "ui11", type: "userImage" }
   ]
@@ -57,26 +57,32 @@ const classes = {
 const bindFilesToTemplates = (template, files, pack = 4) => {
   const templatesPack = [];
 
-  new Array(pack).fill(0).forEach((_, index) => {
-    templatesPack.push({ ...template, index });
+  new Array(pack).fill(0).forEach(() => {
+    templatesPack.push(template);
   });
 
-  let fileIndex = 0;
+  let indexFile = 0;
+  console.log(indexFile);
   for (let i = 0; i < templatesPack.length; i++) {
     const userImageLayers = filterLayersByType(
       templatesPack[i].layers,
       "userImage"
     );
     for (let j = 0; j < userImageLayers.length; j++) {
-      const file = files[fileIndex];
+      // for (let j = 0; j < userImageLayers.length; j++) {
 
-      userImageLayers[j] = { ...userImageLayers[j], file, fileIndex };
-      fileIndex++;
-      if (fileIndex === files.length) {
+      const file = files[indexFile];
+      console.log(file);
+
+      userImageLayers[j] = { ...userImageLayers[j], file };
+      indexFile++;
+      if (indexFile === files.length) {
         // files length
-        fileIndex = 0;
+        indexFile = 0;
       }
     }
+
+    // console.log(userImageLayers);
 
     const layersWithMask = [
       ...templatesPack[i].layers.map((layer) => {
@@ -92,6 +98,8 @@ const bindFilesToTemplates = (template, files, pack = 4) => {
           };
         }
 
+        // console.log(userImageLayers)
+
         // layers level 2
         return {
           ...layer,
@@ -99,7 +107,7 @@ const bindFilesToTemplates = (template, files, pack = 4) => {
             // remove userImages not treated yet
             ...layer.layers.filter((subLayer) => subLayer.type !== "userImage"),
             // userImages with images
-            ...userImageLayers.filter((userImageLayer) =>
+            userImageLayers.filter((userImageLayer) =>
               layer.layers.find((subLayer) => subLayer.id === userImageLayer.id)
             )
           ]
@@ -114,7 +122,7 @@ const bindFilesToTemplates = (template, files, pack = 4) => {
   return templatesPack;
 };
 
-console.log("bindFilesToTemplates", bindFilesToTemplates(template, files, 4));
+console.log("bindFilesToTemplates", bindFilesToTemplates(template, files, 9));
 
 // --------------------------- //
 // ------------ component --------- //
@@ -123,7 +131,7 @@ const Test = () => {
   return (
     <div className="flexCenter">
       <ReactJson
-        src={bindFilesToTemplates(template, files, 4)}
+        src={bindFilesToTemplates(template, files, 9)}
         theme="pop"
         displayDataTypes={false}
         style={classes.reactJson}

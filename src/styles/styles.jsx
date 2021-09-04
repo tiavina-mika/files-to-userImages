@@ -12,7 +12,7 @@ export const mq = facepaint(
 const getGlobalStyles = () => css`
   html,
   body {
-    background: #ffffff;
+    background: #f2f2f2;
     font-family: Lato, Regular, Helvetica, Arial, sans-serif;
     font-size: 16px;
     margin: 0;
@@ -36,7 +36,7 @@ const getGlobalStyles = () => css`
   .link {
     font-family: ${theme.fonts.primary};
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: "pointer";
   }
   .link:hover {
@@ -69,7 +69,7 @@ const getGlobalStyles = () => css`
   }
   .clickableText {
     border: none;
-    background-color: none;
+    background: none;
     cursor: pointer;
   }
   .formItem {
@@ -98,11 +98,11 @@ const getGlobalStyles = () => css`
     font-weight: 800 !important;
   }
   .medium {
-    font-weight: 600 !important;
+    font-weight: 500 !important;
   }
   .text {
     font-size: 22px !important;
-    font-weight: 600;
+    font-weight: 500;
   }
   .light {
     color: #fff !important;
@@ -203,7 +203,9 @@ const getGlobalStyles = () => css`
   .textCenter {
     text-align: center;
   }
-
+  .textLeft {
+    text-align: left;
+  }
   .errorColor {
     color: #ec554f;
   }
@@ -224,6 +226,9 @@ const getGlobalStyles = () => css`
   }
   .minHeight100 {
     min-height: 100vh;
+  }
+  .minHeight50 {
+    min-height: 50vh;
   }
   .pointer {
     cursor: pointer;

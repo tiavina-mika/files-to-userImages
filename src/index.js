@@ -6,13 +6,13 @@ import "antd/dist/antd.css";
 import theme from "./styles/theme";
 import { globalStyles } from "./styles/styles";
 // import Preview from "./containers/personalization/Preview";
-import Test from "./Test";
+import Demo from "./Demo";
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       {globalStyles}
-      <Test />
+      <Demo />
     </ThemeProvider>
   );
 };
